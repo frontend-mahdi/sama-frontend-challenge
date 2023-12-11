@@ -5,8 +5,10 @@ import { telNumberValidator } from "utils/validators/telNumberValidator";
 
 const LegalPersonalForm = () => {
   const registerCtx = useContext(RegisterContext);
+
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log(values);
+    registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
     registerCtx.setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
@@ -28,6 +30,7 @@ const LegalPersonalForm = () => {
       }}
       initialValues={{
         remember: true,
+        ...registerCtx.stepsContent.get(1),
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -84,7 +87,7 @@ const LegalPersonalForm = () => {
           },
         ]}
       >
-        <Input />
+        <Input placeholder="0xxxxxxx" />
       </Form.Item>
 
       <Form.Item

@@ -6,7 +6,7 @@ const { Option } = Select;
 const LocationForm = () => {
   const registerCtx = useContext(RegisterContext);
   const onFinish = (values) => {
-    console.log("Success:", values);
+    registerCtx.setStepsContent((stepsContent) => stepsContent.set(2, values));
     registerCtx.setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
@@ -28,6 +28,7 @@ const LocationForm = () => {
       }}
       initialValues={{
         remember: true,
+        ...registerCtx.stepsContent.get(2),
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}

@@ -8,7 +8,7 @@ export function telNumberValidator(input) {
     if (regex.test(eInput)) {
       resolve();
     } else {
-      reject("شماره شبا وارد شده معتبر نیست");
+      reject("شماره تلفن وارد شده معتبر نیست");
     }
   });
 }

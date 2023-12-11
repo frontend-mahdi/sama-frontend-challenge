@@ -6,7 +6,7 @@ import { ibanValidator } from "utils/validators/ibanValidator";
 const BankForm = () => {
   const registerCtx = useContext(RegisterContext);
   const onFinish = (values) => {
-    console.log("Success:", values);
+    registerCtx.setStepsContent((stepsContent) => stepsContent.set(3, values));
     registerCtx.setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
@@ -28,6 +28,7 @@ const BankForm = () => {
       }}
       initialValues={{
         remember: true,
+        ...registerCtx.stepsContent.get(3),
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -59,7 +60,7 @@ const BankForm = () => {
           },
         ]}
       >
-        <Input />
+        <Input placeholder="IRxxxxxxxxxxxxxx" />
       </Form.Item>
 
       <Form.Item

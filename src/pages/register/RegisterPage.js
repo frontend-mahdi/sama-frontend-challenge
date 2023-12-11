@@ -13,6 +13,8 @@ const { Content, Header } = Layout;
 export const RegisterContext = createContext({
   step: 0,
   setStep: () => {},
+  stepsContent: new Map(),
+  setStepsContent: () => {},
 });
 
 export const stepsTitles = [
@@ -32,6 +34,7 @@ export const stepsTitles = [
 
 const RegisterPage = () => {
   const [step, setStep] = useState(0);
+  const [stepsContent, setStepsContent] = useState(new Map());
 
   const [searchParam] = useSearchParams();
   const navigate = useNavigate();
@@ -43,8 +46,9 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (role === "notValid") navigate("/");
+    setStepsContent((stepsContent) => stepsContent.set(0, { type: role }));
   }, [role, navigate]);
-
+  console.log(stepsContent);
   const content = {
     0: {
       personal: <PersonalForm />,
@@ -58,7 +62,9 @@ const RegisterPage = () => {
   return (
     <Layout style={{ marginInline: "auto", maxWidth: "1400px" }}>
       <Space direction="vertical" size={50} style={layoutContentStyle}>
-        <RegisterContext.Provider value={{ step, setStep }}>
+        <RegisterContext.Provider
+          value={{ step, setStep, stepsContent, setStepsContent }}
+        >
           <Header
             style={{
               ...layoutContentStyle,

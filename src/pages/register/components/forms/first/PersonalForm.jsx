@@ -7,7 +7,9 @@ import { phoneNumberValidator } from "utils/validators/phoneNumberValidator";
 const PersonalForm = () => {
   const registerCtx = useContext(RegisterContext);
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log(values);
+    registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
+    registerCtx.setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -28,6 +30,7 @@ const PersonalForm = () => {
       }}
       initialValues={{
         remember: true,
+        ...registerCtx.stepsContent.get(1),
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -88,7 +91,7 @@ const PersonalForm = () => {
           },
         ]}
       >
-        <Input />
+        <Input placeholder="09xxxxxxxxx" />
       </Form.Item>
 
       <Form.Item
