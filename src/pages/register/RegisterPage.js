@@ -72,20 +72,18 @@ const RegisterPage = () => {
               height: "unset",
             }}
           >
-            <Steps size="small" current={step} items={stepsTitles} />
+            <Steps
+              size="small"
+              current={step}
+              items={stepsTitles}
+              style={{
+                borderRadius: "10px",
+                padding: "1rem",
+                boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+              }}
+            />
           </Header>
           <Content style={layoutContentStyle}>{content}</Content>
-          {/* <Footer style={layoutContentStyle}>
-            <Space direction="horizontal">
-             
-              <Button
-                type="primary"
-                onClick={() => setStep((_step) => _step + 1)}
-              >
-                مرحله
-              </Button>
-            </Space>
-          </Footer> */}
         </RegisterContext.Provider>
       </Space>
     </Layout>

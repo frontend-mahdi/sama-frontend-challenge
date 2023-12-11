@@ -1,9 +1,10 @@
-import { Button, Descriptions, Space } from "antd";
+import { App, Button, Descriptions, Space, Spin } from "antd";
 import { useContext } from "react";
 import useCustomFetch from "services/useFetch";
+import useCustomMutation from "services/useMutation";
 import { RegisterContext, stepsTitles } from "../RegisterPage";
-
 const Preview = () => {
+  const { message } = App.useApp();
   const registerCtx = useContext(RegisterContext);
   const provinceId = registerCtx.stepsContent.get(2).province ?? null;
   const { data: provincesData } = useCustomFetch({
@@ -15,6 +16,8 @@ const Preview = () => {
     url: provinceId ? `/cities/${provinceId}` : null,
     method: "GET",
   });
+
+  const { mutate, isLoading } = useCustomMutation();
 
   const labels = {
     first_name: "نام",
@@ -29,8 +32,6 @@ const Preview = () => {
     iban: "شماره شبا",
     type: "نوع",
   };
-
-  console.log(provincesData);
 
   function collectItemsFromCtx(index) {
     const stepContent = registerCtx.stepsContent.get(index);
@@ -73,6 +74,17 @@ const Preview = () => {
     return items;
   }
   const stepsTitleExceptLast = stepsTitles.slice(0, -1);
+
+  async function submitFormHandler() {
+    let payload = {};
+    for (const [_, value] of registerCtx.stepsContent) {
+      payload = { ...payload, ...value };
+    }
+
+    await mutate("/submit", "POST", payload).then((value) =>
+      message.success(value.detail)
+    );
+  }
   return (
     <>
       {stepsTitleExceptLast.map((step, index) => (
@@ -88,6 +100,7 @@ const Preview = () => {
             maxWidth: 600,
             paddingInline: "1rem",
             marginInline: "auto",
+            marginBlock: "1rem",
           }}
         />
       ))}
@@ -98,7 +111,13 @@ const Preview = () => {
         >
           مرحله قبل
         </Button>
-        <Button type="primary">ثبت نهایی</Button>
+        {isLoading ? (
+          <Spin />
+        ) : (
+          <Button type="primary" onClick={submitFormHandler}>
+            ثبت نهایی
+          </Button>
+        )}
       </Space>
     </>
   );

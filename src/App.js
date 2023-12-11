@@ -1,4 +1,4 @@
-import { ConfigProvider } from "antd";
+import { App as AntApp, ConfigProvider } from "antd";
 import { ErrorBoundary } from "react-error-boundary";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "router/Router";
@@ -12,7 +12,9 @@ function App() {
         direction="rtl"
       >
         <ErrorBoundary fallback={fallbackRender}>
-          <AppRouter />
+          <AntApp>
+            <AppRouter />
+          </AntApp>
         </ErrorBoundary>
       </ConfigProvider>
     </BrowserRouter>
