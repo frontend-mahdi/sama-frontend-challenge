@@ -1,24 +1,21 @@
-import logo from "./logo.svg";
-import "./App.css";
+import { ConfigProvider } from "antd";
+import { ErrorBoundary } from "react-error-boundary";
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "router/Router";
+import fallbackRender from "utils/FallbackError";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <ConfigProvider
+        theme={{ token: { fontFamily: "Vazirmatn" } }}
+        direction="rtl"
+      >
+        <ErrorBoundary fallback={fallbackRender}>
+          <AppRouter />
+        </ErrorBoundary>
+      </ConfigProvider>
+    </BrowserRouter>
   );
 }
 
