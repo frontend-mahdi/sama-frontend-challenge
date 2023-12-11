@@ -7,7 +7,6 @@ import { phoneNumberValidator } from "utils/validators/phoneNumberValidator";
 const PersonalForm = () => {
   const registerCtx = useContext(RegisterContext);
   const onFinish = (values) => {
-    console.log(values);
     registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
     registerCtx.setStep((_step) => _step + 1);
   };
@@ -102,12 +101,6 @@ const PersonalForm = () => {
         style={{ marginTop: "3rem" }}
       >
         <Space direction="horizontal" size={20}>
-          <Button
-            onClick={() => registerCtx.setStep((_step) => _step - 1)}
-            disabled={registerCtx.step === 0}
-          >
-            مرحله قبل
-          </Button>
           <Button type="primary" htmlType="submit">
             مرحله بعد
           </Button>
