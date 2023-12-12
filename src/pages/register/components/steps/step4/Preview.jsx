@@ -1,8 +1,9 @@
 import { App, Button, Descriptions, Space, Spin } from "antd";
+import { RegisterContext } from "pages/register/utils/RegisterContext";
 import { useContext } from "react";
 import useCustomFetch from "services/useFetch";
 import useCustomMutation from "services/useMutation";
-import { RegisterContext, stepsTitles } from "../RegisterPage";
+import { stepsTitles } from "../../../utils/consts";
 const Preview = () => {
   const { message } = App.useApp();
   const registerCtx = useContext(RegisterContext);
@@ -99,16 +100,16 @@ const Preview = () => {
       );
       registerCtx.setStep(step);
 
-      const mockErrorMessage = {
-        code: "validation_error",
-        detail: "info",
-        extra: [
-          {
-            field: "first_name",
-            error: "The length should be grater then 3 characters.",
-          },
-        ],
-      };
+      // const mockErrorMessage = {
+      //   code: "validation_error",
+      //   detail: "info",
+      //   extra: [
+      //     {
+      //       field: "first_name",
+      //       error: "The length should be grater then 3 characters.",
+      //     },
+      //   ],
+      // };
     }
   }
   return (

@@ -1,5 +1,5 @@
 import { Button, Form, Input, Space } from "antd";
-import { RegisterContext } from "pages/register/RegisterPage";
+import { RegisterContext } from "pages/register/utils/RegisterContext";
 import { useContext, useEffect } from "react";
 import { telNumberValidator } from "utils/validators/telNumberValidator";
 
@@ -13,6 +13,7 @@ const LegalPersonalForm = () => {
     registerCtx.setStepsContentError((_stepsError) => _stepsError.set(0, null));
     registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
     registerCtx.setStep((_step) => _step + 1);
+    console.log(registerCtx.step);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

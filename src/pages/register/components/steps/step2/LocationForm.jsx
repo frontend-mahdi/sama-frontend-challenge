@@ -1,5 +1,5 @@
 import { Button, Form, Select, Space, Spin } from "antd";
-import { RegisterContext } from "pages/register/RegisterPage";
+import { RegisterContext } from "pages/register/utils/RegisterContext";
 import { useContext, useState } from "react";
 import useCustomFetch from "services/useFetch";
 const { Option } = Select;

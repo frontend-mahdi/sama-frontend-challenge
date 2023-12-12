@@ -1,13 +1,12 @@
 import { Button, Form, Input, Space } from "antd";
-import { RegisterContext } from "pages/register/RegisterPage";
+import { RegisterContext } from "pages/register/utils/RegisterContext";
 import { useContext } from "react";
-import { nationalCodeValidator } from "utils/validators/nationalCodeValidator";
-import { phoneNumberValidator } from "utils/validators/phoneNumberValidator";
+import { ibanValidator } from "utils/validators/ibanValidator";
 
-const PersonalForm = () => {
+const BankForm = () => {
   const registerCtx = useContext(RegisterContext);
   const onFinish = (values) => {
-    registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
+    registerCtx.setStepsContent((stepsContent) => stepsContent.set(3, values));
     registerCtx.setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
@@ -15,7 +14,7 @@ const PersonalForm = () => {
   };
   return (
     <Form
-      name="personalInfo"
+      name="bankInfo"
       labelCol={{
         span: 8,
       }}
@@ -29,29 +28,15 @@ const PersonalForm = () => {
       }}
       initialValues={{
         remember: true,
-        ...registerCtx.stepsContent.get(1),
+        ...registerCtx.stepsContent.get(3),
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <Form.Item
-        label="نام"
-        name="first_name"
-        rules={[
-          {
-            required: true,
-            message: "این فیلد اجباری است",
-          },
-        ]}
-        style={{ fontSize: "10px" }}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="نام خانوادگی"
-        name="last_name"
+        label="نام بانک"
+        name="bank_name"
         rules={[
           {
             required: true,
@@ -63,26 +48,19 @@ const PersonalForm = () => {
       </Form.Item>
 
       <Form.Item
-        label="کد ملی"
-        name="national_code"
+        label="شماره شبا"
+        name="iban"
         rules={[
           {
-            validator: (_, value) => nationalCodeValidator(value),
+            required: true,
+            message: "این فیلد اجباری است",
+          },
+          {
+            validator: (_, value) => ibanValidator(value),
           },
         ]}
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="تلفن همراه"
-        name="phone"
-        rules={[
-          {
-            validator: (_, value) => phoneNumberValidator(value),
-          },
-        ]}
-      >
-        <Input placeholder="09xxxxxxxxx" />
+        <Input placeholder="IRxxxxxxxxxxxxxxxxxxxxxxxx" />
       </Form.Item>
 
       <Form.Item
@@ -93,6 +71,12 @@ const PersonalForm = () => {
         style={{ marginTop: "3rem" }}
       >
         <Space direction="horizontal" size={20}>
+          <Button
+            onClick={() => registerCtx.setStep((_step) => _step - 1)}
+            disabled={registerCtx.step === 0}
+          >
+            مرحله قبل
+          </Button>
           <Button type="primary" htmlType="submit">
             مرحله بعد
           </Button>
@@ -102,4 +86,4 @@ const PersonalForm = () => {
   );
 };
 
-export default PersonalForm;
+export default BankForm;
