@@ -1,63 +1,38 @@
-import { Button, Form, Input, Space } from "antd";
+import { Space } from "antd";
 import { RegisterContext } from "pages/register/utils/RegisterContext";
-import { useContext, useEffect } from "react";
+import useFormFieldsErrors from "pages/register/utils/useFormFieldsErrors";
+import { useContext } from "react";
 import { telNumberValidator } from "utils/validators/telNumberValidator";
+import FormContainer from "../../form/FormContainer";
 
 const LegalPersonalForm = () => {
-  const [form] = Form.useForm();
+  const { setStep, setStepsContent, setStepsContentError, stepsContent, step } =
+    useContext(RegisterContext);
 
-  const registerCtx = useContext(RegisterContext);
-  const registerCtxError = registerCtx.stepsContentError.get(0);
+  const form = useFormFieldsErrors(step);
 
   const onFinish = (values) => {
-    registerCtx.setStepsContentError((_stepsError) => _stepsError.set(0, null));
-    registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
-    registerCtx.setStep((_step) => _step + 1);
-    console.log(registerCtx.step);
+    setStepsContentError((_stepsContentError) =>
+      _stepsContentError.set(step, null)
+    );
+    setStepsContent((_stepsContent) => _stepsContent.set(step, values));
+    setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
-  useEffect(() => {
-    if (registerCtxError) {
-      console.log(registerCtxError);
-      registerCtxError.forEach(({ field, error }) => {
-        form.setFields([
-          {
-            name: field,
-            errors: [error], // Set the specific input field as invalid with the provided error message
-          },
-        ]);
-      });
-    }
-    return () => {};
-  }, [registerCtxError, form]);
-
   return (
-    <Form
+    <FormContainer
       form={form}
-      name="personalInfo"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 10,
-      }}
-      style={{
-        maxWidth: 600,
-        paddingInline: "1rem",
-        marginInline: "auto",
-      }}
+      name="legalPersonalInfo"
       initialValues={{
         remember: true,
-        ...registerCtx.stepsContent.get(1),
+        ...stepsContent.get(step),
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
+      onSubmitHandler={onFinish}
+      onFailedHandler={onFinishFailed}
     >
-      <Form.Item
+      <FormContainer.Text
         label="نام"
         name="first_name"
         rules={[
@@ -66,11 +41,8 @@ const LegalPersonalForm = () => {
             message: "این فیلد اجباری است",
           },
         ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
+      />
+      <FormContainer.Text
         label="نام خانوادگی"
         name="last_name"
         rules={[
@@ -79,11 +51,8 @@ const LegalPersonalForm = () => {
             message: "این فیلد اجباری است",
           },
         ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
+      />
+      <FormContainer.Text
         label="شماره ثبت"
         name="registration_number"
         rules={[
@@ -92,12 +61,11 @@ const LegalPersonalForm = () => {
             message: "این فیلد اجباری است",
           },
         ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
+      />
+      <FormContainer.Text
         label="تلفن ثابت"
         name="tel"
+        placeholder="0xxxxxxx"
         rules={[
           {
             required: true,
@@ -107,24 +75,11 @@ const LegalPersonalForm = () => {
             validator: (_, value) => telNumberValidator(value),
           },
         ]}
-      >
-        <Input placeholder="0xxxxxxx" />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 3,
-          span: 18,
-        }}
-        style={{ marginTop: "3rem" }}
-      >
-        <Space direction="horizontal" size={20}>
-          <Button type="primary" htmlType="submit">
-            مرحله بعد
-          </Button>
-        </Space>
-      </Form.Item>
-    </Form>
+      />
+      <Space direction="horizontal" size={20}>
+        <FormContainer.Button text="مرحله بعد" htmlType="submit" />
+      </Space>
+    </FormContainer>
   );
 };
 

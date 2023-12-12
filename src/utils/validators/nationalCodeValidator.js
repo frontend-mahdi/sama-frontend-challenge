@@ -2,7 +2,7 @@ import { p2eDigits } from "utils/p2eDigits";
 
 export function nationalCodeValidator(input) {
   if (!input) {
-    return Promise.reject("لطفا کد ملی خود را وارد کنید");
+    return Promise.reject();
   }
 
   const eInput = p2eDigits(input);

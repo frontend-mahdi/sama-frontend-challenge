@@ -2,7 +2,7 @@ import { p2eDigits } from "utils/p2eDigits";
 
 export function phoneNumberValidator(input) {
   if (!input) {
-    return Promise.reject("لطفا تلفن همراه خود را وارد کنید");
+    return Promise.reject();
   }
   const eInput = p2eDigits(input);
   return new Promise((resolve, reject) => {

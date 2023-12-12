@@ -1,40 +1,38 @@
-import { Button, Form, Input, Space } from "antd";
+import { Button, Space } from "antd";
 import { RegisterContext } from "pages/register/utils/RegisterContext";
+import useFormFieldsErrors from "pages/register/utils/useFormFieldsErrors";
 import { useContext } from "react";
 import { ibanValidator } from "utils/validators/ibanValidator";
+import FormContainer from "../../form/FormContainer";
 
-const BankForm = () => {
-  const registerCtx = useContext(RegisterContext);
+const PersonalForm = () => {
+  const { setStep, setStepsContent, setStepsContentError, stepsContent, step } =
+    useContext(RegisterContext);
+
+  const form = useFormFieldsErrors(step);
+
   const onFinish = (values) => {
-    registerCtx.setStepsContent((stepsContent) => stepsContent.set(3, values));
-    registerCtx.setStep((_step) => _step + 1);
+    setStepsContentError((_stepsContentError) =>
+      _stepsContentError.set(step, null)
+    );
+    setStepsContent((_stepsContent) => _stepsContent.set(step, values));
+    setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <Form
+    <FormContainer
+      form={form}
       name="bankInfo"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 10,
-      }}
-      style={{
-        maxWidth: 600,
-        paddingInline: "1rem",
-        marginInline: "auto",
-      }}
       initialValues={{
         remember: true,
-        ...registerCtx.stepsContent.get(3),
+        ...stepsContent.get(step),
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
+      onSubmitHandler={onFinish}
+      onFailedHandler={onFinishFailed}
     >
-      <Form.Item
+      <FormContainer.Text
         label="نام بانک"
         name="bank_name"
         rules={[
@@ -43,13 +41,11 @@ const BankForm = () => {
             message: "این فیلد اجباری است",
           },
         ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
+      />
+      <FormContainer.Text
         label="شماره شبا"
         name="iban"
+        placeholder="IRxxxxxxxxxxxxxxxxxxxxxxxx"
         rules={[
           {
             required: true,
@@ -59,31 +55,19 @@ const BankForm = () => {
             validator: (_, value) => ibanValidator(value),
           },
         ]}
-      >
-        <Input placeholder="IRxxxxxxxxxxxxxxxxxxxxxxxx" />
-      </Form.Item>
+      />
 
-      <Form.Item
-        wrapperCol={{
-          offset: 3,
-          span: 18,
-        }}
-        style={{ marginTop: "3rem" }}
-      >
-        <Space direction="horizontal" size={20}>
-          <Button
-            onClick={() => registerCtx.setStep((_step) => _step - 1)}
-            disabled={registerCtx.step === 0}
-          >
-            مرحله قبل
-          </Button>
-          <Button type="primary" htmlType="submit">
-            مرحله بعد
-          </Button>
-        </Space>
-      </Form.Item>
-    </Form>
+      <Space direction="horizontal" size={20}>
+        <Button
+          onClick={() => setStep((_step) => _step - 1)}
+          style={{ marginBottom: "24px" }}
+        >
+          مرحله قبل
+        </Button>
+        <FormContainer.Button text="مرحله بعد" htmlType="submit" />
+      </Space>
+    </FormContainer>
   );
 };
 
-export default BankForm;
+export default PersonalForm;

@@ -1,41 +1,38 @@
-import { Button, Form, Input, Space } from "antd";
+import { Space } from "antd";
 import { RegisterContext } from "pages/register/utils/RegisterContext";
+import useFormFieldsErrors from "pages/register/utils/useFormFieldsErrors";
 import { useContext } from "react";
 import { nationalCodeValidator } from "utils/validators/nationalCodeValidator";
 import { phoneNumberValidator } from "utils/validators/phoneNumberValidator";
-
+import FormContainer from "../../form/FormContainer";
 const PersonalForm = () => {
-  const registerCtx = useContext(RegisterContext);
+  const { setStep, setStepsContent, setStepsContentError, stepsContent, step } =
+    useContext(RegisterContext);
+
+  const form = useFormFieldsErrors(step);
+
   const onFinish = (values) => {
-    registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
-    registerCtx.setStep((_step) => _step + 1);
+    setStepsContentError((_stepsContentError) =>
+      _stepsContentError.set(step, null)
+    );
+    setStepsContent((_stepsContent) => _stepsContent.set(step, values));
+    setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <Form
+    <FormContainer
+      form={form}
       name="personalInfo"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 10,
-      }}
-      style={{
-        maxWidth: 600,
-        paddingInline: "1rem",
-        marginInline: "auto",
-      }}
       initialValues={{
         remember: true,
-        ...registerCtx.stepsContent.get(1),
+        ...stepsContent.get(step),
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
+      onSubmitHandler={onFinish}
+      onFailedHandler={onFinishFailed}
     >
-      <Form.Item
+      <FormContainer.Text
         label="نام"
         name="first_name"
         rules={[
@@ -44,12 +41,8 @@ const PersonalForm = () => {
             message: "این فیلد اجباری است",
           },
         ]}
-        style={{ fontSize: "10px" }}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
+      />
+      <FormContainer.Text
         label="نام خانوادگی"
         name="last_name"
         rules={[
@@ -58,47 +51,38 @@ const PersonalForm = () => {
             message: "این فیلد اجباری است",
           },
         ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
+      />
+      <FormContainer.Text
         label="کد ملی"
         name="national_code"
         rules={[
           {
+            required: true,
+            message: "این فیلد اجباری است",
+          },
+          {
             validator: (_, value) => nationalCodeValidator(value),
           },
         ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
+      />
+      <FormContainer.Text
         label="تلفن همراه"
         name="phone"
+        placeholder="09xxxxxxxxx"
         rules={[
+          {
+            required: true,
+            message: "این فیلد اجباری است",
+          },
           {
             validator: (_, value) => phoneNumberValidator(value),
           },
         ]}
-      >
-        <Input placeholder="09xxxxxxxxx" />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 3,
-          span: 18,
-        }}
-        style={{ marginTop: "3rem" }}
-      >
-        <Space direction="horizontal" size={20}>
-          <Button type="primary" htmlType="submit">
-            مرحله بعد
-          </Button>
-        </Space>
-      </Form.Item>
-    </Form>
+      />
+      <Space direction="horizontal" size={20}>
+        <FormContainer.Button text="مرحله بعد" htmlType="submit" />
+      </Space>
+    </FormContainer>
   );
 };
 

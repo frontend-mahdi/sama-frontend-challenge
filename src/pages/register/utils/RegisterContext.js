@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 
 export const RegisterContext = createContext({
-  step: 0,
+  step: 1,
   setStep: () => {},
   stepsContent: new Map(),
   setStepsContent: () => {},
@@ -10,7 +10,7 @@ export const RegisterContext = createContext({
 });
 
 export const RegisterContextProvider = ({ children }) => {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const [stepsContent, setStepsContent] = useState(new Map());
   const [stepsContentError, setStepsContentError] = useState(new Map());
   return (

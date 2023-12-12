@@ -8,7 +8,7 @@ const StepsIndicator = () => {
   return (
     <Steps
       size="small"
-      current={step}
+      current={step - 1}
       items={stepsTitles}
       style={{
         borderRadius: "10px",

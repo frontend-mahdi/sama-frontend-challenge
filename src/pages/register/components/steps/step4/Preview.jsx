@@ -89,9 +89,9 @@ const Preview = () => {
       message.error("خطا در فرم ارسالی از سمت سرور");
       console.log(errorMessage);
       const stepMapper = {
-        info: 0,
-        address: 1,
-        bank: 2,
+        info: 1,
+        address: 2,
+        bank: 3,
       };
       const step = stepMapper[errorMessage.detail];
 
