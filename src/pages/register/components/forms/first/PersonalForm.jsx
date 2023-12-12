@@ -67,10 +67,6 @@ const PersonalForm = () => {
         name="national_code"
         rules={[
           {
-            required: true,
-            message: "این فیلد اجباری است",
-          },
-          {
             validator: (_, value) => nationalCodeValidator(value),
           },
         ]}
@@ -81,10 +77,6 @@ const PersonalForm = () => {
         label="تلفن همراه"
         name="phone"
         rules={[
-          {
-            required: true,
-            message: "این فیلد اجباری است",
-          },
           {
             validator: (_, value) => phoneNumberValidator(value),
           },

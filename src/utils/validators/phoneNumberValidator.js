@@ -1,6 +1,9 @@
 import { p2eDigits } from "utils/p2eDigits";
 
 export function phoneNumberValidator(input) {
+  if (!input) {
+    return Promise.reject("لطفا تلفن همراه خود را وارد کنید");
+  }
   const eInput = p2eDigits(input);
   return new Promise((resolve, reject) => {
     if (eInput.startsWith("09") && input.length === 11) {

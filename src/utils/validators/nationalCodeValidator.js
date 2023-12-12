@@ -1,10 +1,13 @@
 import { p2eDigits } from "utils/p2eDigits";
 
 export function nationalCodeValidator(input) {
+  if (!input) {
+    return Promise.reject("لطفا کد ملی خود را وارد کنید");
+  }
+
   const eInput = p2eDigits(input);
   return new Promise((resolve, reject) => {
     let isValid = isNationalCodeValid(eInput);
-    // your validation logic here
 
     if (isValid) {
       resolve();

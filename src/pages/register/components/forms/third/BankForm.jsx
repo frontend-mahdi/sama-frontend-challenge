@@ -60,7 +60,7 @@ const BankForm = () => {
           },
         ]}
       >
-        <Input placeholder="IRxxxxxxxxxxxxxx" />
+        <Input placeholder="IRxxxxxxxxxxxxxxxxxxxxxxxx" />
       </Form.Item>
 
       <Form.Item
