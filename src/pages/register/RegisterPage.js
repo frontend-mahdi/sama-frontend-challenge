@@ -15,6 +15,8 @@ export const RegisterContext = createContext({
   setStep: () => {},
   stepsContent: new Map(),
   setStepsContent: () => {},
+  stepsContentError: new Map(),
+  setStepsContentError: () => {},
 });
 
 export const stepsTitles = [
@@ -35,6 +37,7 @@ export const stepsTitles = [
 const RegisterPage = () => {
   const [step, setStep] = useState(0);
   const [stepsContent, setStepsContent] = useState(new Map());
+  const [stepsContentError, setStepsContentError] = useState(new Map());
 
   const [searchParam] = useSearchParams();
   const navigate = useNavigate();
@@ -63,7 +66,14 @@ const RegisterPage = () => {
     <Layout style={{ marginInline: "auto", maxWidth: "1400px" }}>
       <Space direction="vertical" size={50} style={layoutContentStyle}>
         <RegisterContext.Provider
-          value={{ step, setStep, stepsContent, setStepsContent }}
+          value={{
+            step,
+            setStep,
+            stepsContent,
+            setStepsContent,
+            stepsContentError,
+            setStepsContentError,
+          }}
         >
           <Header
             style={{

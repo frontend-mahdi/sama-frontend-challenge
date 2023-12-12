@@ -1,20 +1,41 @@
 import { Button, Form, Input, Space } from "antd";
 import { RegisterContext } from "pages/register/RegisterPage";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { telNumberValidator } from "utils/validators/telNumberValidator";
 
 const LegalPersonalForm = () => {
+  const [form] = Form.useForm();
+
   const registerCtx = useContext(RegisterContext);
+  const registerCtxError = registerCtx.stepsContentError.get(0);
 
   const onFinish = (values) => {
+    registerCtx.setStepsContentError((_stepsError) => _stepsError.set(0, null));
     registerCtx.setStepsContent((stepsContent) => stepsContent.set(1, values));
     registerCtx.setStep((_step) => _step + 1);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+
+  useEffect(() => {
+    if (registerCtxError) {
+      console.log(registerCtxError);
+      registerCtxError.forEach(({ field, error }) => {
+        form.setFields([
+          {
+            name: field,
+            errors: [error], // Set the specific input field as invalid with the provided error message
+          },
+        ]);
+      });
+    }
+    return () => {};
+  }, [registerCtxError, form]);
+
   return (
     <Form
+      form={form}
       name="personalInfo"
       labelCol={{
         span: 8,

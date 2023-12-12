@@ -1,5 +1,5 @@
-import { BASE_URL } from "mocks/consts";
-import { useState } from "react";
+const { BASE_URL } = require("mocks/consts");
+const { useState } = require("react");
 
 function useCustomMutation() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,11 +14,19 @@ function useCustomMutation() {
         },
         body: JSON.stringify(body),
       });
-      const result = await response.json();
-      setIsLoading(false);
-      return result;
+      if (response.ok) {
+        setIsLoading(false);
+        const result = await response.json();
+        return result;
+      } else {
+        setIsLoading(false);
+        const result = await response.json();
+        const error = new Error();
+        error.message = JSON.stringify(result);
+        throw error;
+      }
     } catch (error) {
-      console.error("Error in mutation:", error);
+      console.error("Error in mutation:", error.message);
       setIsLoading(false);
       throw error;
     }

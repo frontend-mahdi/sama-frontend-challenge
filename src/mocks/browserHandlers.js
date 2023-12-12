@@ -20,8 +20,21 @@ export const handlers = [
 
   http.post(`${BASE_URL}/submit`, async ({ request }) => {
     return HttpResponse.json(
-      { detail: "اطلاعات شما با موفقیت ثبت شد." },
-      { status: 200 }
+      {
+        code: "validation_error",
+        detail: "info",
+        extra: [
+          {
+            field: "first_name",
+            error: "طول کاراکتر باید از ۳ بیشتر باشد",
+          },
+          {
+            field: "registration_number",
+            error: "شماره ثبت تکراری می باشد",
+          },
+        ],
+      },
+      { status: 400, type: "error" }
     );
   }),
 ];

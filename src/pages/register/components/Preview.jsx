@@ -77,13 +77,39 @@ const Preview = () => {
 
   async function submitFormHandler() {
     let payload = {};
-    for (const [_, value] of registerCtx.stepsContent) {
+    for (const value of registerCtx.stepsContent.values()) {
       payload = { ...payload, ...value };
     }
+    try {
+      const result = await mutate("/submit", "POST", payload);
+      message.success(result.detail);
+    } catch (error) {
+      const errorMessage = JSON.parse(error.message);
+      message.error("خطا در فرم ارسالی از سمت سرور");
+      console.log(errorMessage);
+      const stepMapper = {
+        info: 0,
+        address: 1,
+        bank: 2,
+      };
+      const step = stepMapper[errorMessage.detail];
 
-    await mutate("/submit", "POST", payload).then((value) =>
-      message.success(value.detail)
-    );
+      registerCtx.setStepsContentError((_stepsError) =>
+        _stepsError.set(step, errorMessage.extra)
+      );
+      registerCtx.setStep(step);
+
+      const mockErrorMessage = {
+        code: "validation_error",
+        detail: "info",
+        extra: [
+          {
+            field: "first_name",
+            error: "The length should be grater then 3 characters.",
+          },
+        ],
+      };
+    }
   }
   return (
     <>
