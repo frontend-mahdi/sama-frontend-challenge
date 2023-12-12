@@ -6,8 +6,6 @@ const { Content, Header } = Layout;
 const { Title } = Typography;
 
 const MainPage = () => {
-  //   const aa = null;
-  //   return aa.map((v) => <p>v</p>);
   return (
     <Layout style={{ marginInline: "auto", maxWidth: "1400px" }}>
       <Space direction="vertical" size={50} style={layoutContentStyle}>

@@ -1,3 +1,4 @@
+// converts numbers from persian to english
 export const p2eDigits = (str) => {
   if (typeof str == "string") {
     var persianNumbers = [

@@ -2,7 +2,7 @@ import { App, Button, Space, Spin } from "antd";
 import { RegisterContext } from "pages/register/utils/RegisterContext";
 import { useContext } from "react";
 import useCustomMutation from "services/useMutation";
-import FormsSummery from "./FormsSummery";
+import FormsSummery from "./components/FormsSummery";
 
 const Preview = () => {
   const { message } = App.useApp();

@@ -1,22 +1,8 @@
 import { Descriptions } from "antd";
 import { RegisterContext } from "pages/register/utils/RegisterContext";
-import { stepsTitles } from "pages/register/utils/consts";
+import { labels, stepsTitles } from "pages/register/utils/consts";
 import { useContext } from "react";
 import useCustomFetch from "services/useFetch";
-
-const labels = {
-  first_name: "نام",
-  last_name: "نام خانوادگی",
-  phone: "تلفن همراه",
-  national_code: "کد ملی",
-  registration_number: "شماره ثبت",
-  tel: "تلفن ثابت",
-  province: "استان",
-  city: "شهر",
-  bank_name: "نام بانک",
-  iban: "شماره شبا",
-  type: "نوع",
-};
 
 const FormsSummery = () => {
   const { stepsContent } = useContext(RegisterContext);
