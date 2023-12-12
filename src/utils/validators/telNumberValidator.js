@@ -1,6 +1,9 @@
 import { p2eDigits } from "utils/p2eDigits";
 
 export function telNumberValidator(input) {
+  if (!input) {
+    return Promise.reject();
+  }
   const eInput = p2eDigits(input);
   const regex = /^0[0-9]{2,}[0-9]{7,}$/;
 

@@ -72,7 +72,7 @@ const AddressForm = () => {
 
       {citiesLoading ? (
         <Spin />
-      ) : citiesData ? (
+      ) : (
         <FormContainer.Select
           label="شهر"
           name="city"
@@ -83,15 +83,13 @@ const AddressForm = () => {
             },
           ]}
           value={selectedCity}
-          options={citiesData.results}
+          options={citiesData?.results ?? []}
           onChange={(value) => {
             setSelectedCity(value);
             setProvinceChanged(true);
           }}
           disabled={!citiesData}
         />
-      ) : (
-        <p>مشکلی در دریافت استانها رخ داده است</p>
       )}
       <Space direction="horizontal" size={20}>
         <Button

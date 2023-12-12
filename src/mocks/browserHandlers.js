@@ -19,6 +19,10 @@ export const handlers = [
   }),
 
   http.post(`${BASE_URL}/submit`, async ({ request }) => {
+    // return HttpResponse.json(
+    //   { detail: "اطلاعات شما با موفقیت ثبت شد." },
+    //   { status: 200 }
+    // );
     return HttpResponse.json(
       {
         code: "validation_error",
